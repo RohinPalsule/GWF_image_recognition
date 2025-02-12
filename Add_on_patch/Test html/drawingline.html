@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Images with Line</title>
+    <style>
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;  /* Make container full height of the viewport */
+        }
+        img {
+            position: absolute;
+            max-width: 150px;  /* Set max width for the images */
+            max-height: 150px; /* Set max height for the images */
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;  /* Ensure the canvas is behind the images */
+        }
+        button {
+            position: absolute;
+            top: 20px;
+            z-index: 1;  /* Ensure the button is on top of everything */
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div class="container" id="container">
+        <img src="image1.png" id="image1" style="top: 50px; left: 50px;">
+        <img src="image2.png" id="image2" style="top: 50px; left: 250px;">
+        <img src="image3.png" id="image3" style="top: 50px; left: 450px;">
+        <img src="image4.png" id="image4" style="top: 50px; left: 650px;">
+        <img src="image5.png" id="image5" style="top: 50px; left: 850px;">
+        <canvas id="lineCanvas"></canvas>
+        <button onclick="handleButtonClick(1)" style="left: 50px;">Image 1</button>
+        <button onclick="handleButtonClick(2)" style="left: 250px;">Image 2</button>
+        <button onclick="handleButtonClick(3)" style="left: 450px;">Image 3</button>
+        <button onclick="handleButtonClick(4)" style="left: 650px;">Image 4</button>
+        <button onclick="handleButtonClick(5)" style="left: 850px;">Image 5</button>
+    </div>
+    <script>
+        // Select the parent element where the canvas will be added
+        var container = document.getElementById('canvas-container');
+
+    // Create a new canvas element
+        var canvas = document.createElement('canvas');
+
+    // Set the ID attribute for the canvas
+        canvas.id = 'myCanvas';
+
+        var canvas = document.getElementById('lineCanvas');
+        var ctx = canvas.getContext('2d');
+        var container = document.getElementById('container');
+        var selectedButtons = [];
+        var lines = {};  // Store lines with keys as "img1-img2"
+
+        function handleButtonClick(imageId) {
+            selectedButtons.push(imageId);
+            if (selectedButtons.length === 2) {
+                var img1 = selectedButtons[0];
+                var img2 = selectedButtons[1];
+                var key = img1 < img2 ? img1 + '-' + img2 : img2 + '-' + img1;
+
+                if (lines[key]) {
+                    // Clear the line
+                    clearLine(lines[key]);
+                    delete lines[key];
+                } else {
+                    // Draw the line
+                    var line = drawLine(img1, img2);
+                    lines[key] = line;
+                }
+                selectedButtons = [];
+            }
+        }
+
+        function drawLine(img1Id, img2Id) {
+            var img1 = document.getElementById('image' + img1Id);
+            var img2 = document.getElementById('image' + img2Id);
+
+            // Set canvas size to match the container
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+
+            // Get image positions and dimensions
+            var rect1 = img1.getBoundingClientRect();
+            var rect2 = img2.getBoundingClientRect();
+            var containerRect = container.getBoundingClientRect();
+
+            // Adjust positions relative to the container
+            var x1 = rect1.left - containerRect.left + rect1.width / 2;
+            var y1 = rect1.top - containerRect.top + rect1.height / 2;
+            var x2 = rect2.left - containerRect.left + rect2.width / 2;
+            var y2 = rect2.top - containerRect.top + rect2.height / 2;
+
+            // Draw line
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'black';  // Set the line color
+            ctx.lineWidth = 2;  // Set the line width
+            ctx.stroke();
+
+            return { x1: x1, y1: y1, x2: x2, y2: y2 };
+        }
+
+        function clearLine(line) {
+            // Save current globalCompositeOperation
+            var compositeOperation = ctx.globalCompositeOperation;
+
+            // Set composite operation to "destination-out" to clear the line
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.moveTo(line.x1, line.y1);
+            ctx.lineTo(line.x2, line.y2);
+            ctx.lineWidth = 2; // Match line width to ensure proper clearing
+            ctx.stroke();
+
+            // Reset composite operation to default
+            ctx.globalCompositeOperation = compositeOperation;
+        }
+
+        window.onload = function() {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+        };
+        window.onresize = function() {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            // Redraw all existing lines on resize
+            for (var key in lines) {
+                var line = lines[key];
+                ctx.beginPath();
+                ctx.moveTo(line.x1, line.y1);
+                ctx.lineTo(line.x2, line.y2);
+                ctx.strokeStyle = 'red';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        };
+    </script>
+</body>
+</html>

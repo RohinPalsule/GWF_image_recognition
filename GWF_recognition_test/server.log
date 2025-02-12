@@ -1,0 +1,38 @@
+[2020-05-07 16:52:17 -0700] [9330] [ERROR] Invalid address: ('gorgonzola.cogsci.uci.edu', 20455)
+[2020-05-07 16:52:17 -0700] [9330] [ERROR] Retrying in 1 second.
+[2020-05-07 16:52:18 -0700] [9330] [ERROR] Invalid address: ('gorgonzola.cogsci.uci.edu', 20455)
+[2020-05-07 16:52:18 -0700] [9330] [ERROR] Retrying in 1 second.
+[2020-05-07 16:52:19 -0700] [9330] [ERROR] Invalid address: ('gorgonzola.cogsci.uci.edu', 20455)
+[2020-05-07 16:52:19 -0700] [9330] [ERROR] Retrying in 1 second.
+[2020-05-07 16:52:20 -0700] [9330] [ERROR] Invalid address: ('gorgonzola.cogsci.uci.edu', 20455)
+[2020-05-07 16:52:20 -0700] [9330] [ERROR] Retrying in 1 second.
+[2020-05-07 16:52:21 -0700] [9330] [ERROR] Invalid address: ('gorgonzola.cogsci.uci.edu', 20455)
+[2020-05-07 16:52:21 -0700] [9330] [ERROR] Retrying in 1 second.
+[2020-05-07 16:52:22 -0700] [9330] [ERROR] Can't connect to ('gorgonzola.cogsci.uci.edu', 20455)
+2020-08-09 15:06:21,180 Scheduler started
+2020-08-09 15:06:21,441 Scheduler started
+2020-08-09 15:06:21,703 Scheduler started
+2020-08-09 15:06:21,731 Looking for jobs to run
+2020-08-09 15:06:21,743 No jobs; waiting until a job is added
+2020-08-09 15:06:21,820 Looking for jobs to run
+2020-08-09 15:06:21,829 No jobs; waiting until a job is added
+2020-08-09 15:06:21,832 Scheduler started
+2020-08-09 15:06:21,926 Scheduler started
+2020-08-09 15:06:21,966 Scheduler started
+2020-08-09 15:06:22,044 Looking for jobs to run
+2020-08-09 15:06:22,058 No jobs; waiting until a job is added
+2020-08-09 15:06:22,111 Scheduler started
+2020-08-09 15:06:22,118 Scheduler started
+2020-08-09 15:06:22,126 Scheduler started
+2020-08-09 15:06:22,156 Looking for jobs to run
+2020-08-09 15:06:22,195 No jobs; waiting until a job is added
+2020-08-09 15:06:22,222 Looking for jobs to run
+2020-08-09 15:06:22,232 No jobs; waiting until a job is added
+2020-08-09 15:06:22,343 Looking for jobs to run
+2020-08-09 15:06:22,359 No jobs; waiting until a job is added
+2020-08-09 15:06:22,459 Looking for jobs to run
+2020-08-09 15:06:22,463 Looking for jobs to run
+2020-08-09 15:06:22,486 No jobs; waiting until a job is added
+2020-08-09 15:06:22,549 No jobs; waiting until a job is added
+2020-08-09 15:06:22,578 Looking for jobs to run
+2020-08-09 15:06:22,588 No jobs; waiting until a job is added
