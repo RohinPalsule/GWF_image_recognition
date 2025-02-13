@@ -4,6 +4,17 @@ function parse(str) {
     return str.replace(/%s/g, () => args[i++]);
 }
 
+function create_image_learn(presented_img, trial_num) {
+  return parse("<img style='position:absolute;top: 50%;right: 50%;transform: translate(50%, -50%);z-score:0;width: 250px;height: 250px;' src='../static/images/%s' height='250'></style>"
+  ,presented_img[trial_num])
+  
+}
+
+function create_image_recognition(presented_img, trial_num) {
+  return parse("<p style='position:absolute;top: 20%;right: 50%;transform: translate(50%, -50%);font-size: 25px;color:black;'>Is this image <strong>Old</strong> or <strong>New</strong>?</p><img style='position:absolute;top: 50%;right: 50%;transform: translate(50%, -50%);z-score:0;width: 250px;height: 250px;' src='../static/images/%s' height='250'></style><p style='position:absolute;top: 80%;right: 50%;transform: translate(50%, -50%);font-size: 25px;color:black;'>Press '1' for <strong>Old</strong> and '2' for <strong>New</strong>.</p>"
+  ,presented_img[trial_num])
+  
+}
 
 //Learning phase with color cross in the middle
 function create_learningcolor_trial(trial_num,color) {
@@ -104,22 +115,4 @@ function timelinepresent(intro, instructnames,directmemory_phase) {
   timelinetemp.push(directmemory_phase);
   
   jsPsych.addNodeToEndOfTimeline({ timeline: timelinetemp }, jsPsych.resumeExperiment);
-}
-
-//function to generate the attention check of the plus sign
-//random number
-function randomIntFromInterval(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-var pluscheck=[]
-var pluscolor=[]
-for (let i=0 ; i<n_learning_trial;i++){
-  plusdeter = randomIntFromInterval(1, 2)
-  if (plusdeter==1){
-    pluscolor.push(atcheckcolor[0])
-    pluscheck.push(49)
-  }else if(plusdeter==2){
-    pluscolor.push(atcheckcolor[1])
-    pluscheck.push(50)
-  }
 }

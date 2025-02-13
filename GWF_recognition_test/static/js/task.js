@@ -6,12 +6,6 @@ var data_save_method = 'csv_server_py';
 var normal_exit = false;
 var window_height = window.screen.height;
 
-function create_image_learn(presented_img, trial_num) {
-  return parse("<img style='position:absolute;top: 50%;right: 50%;transform: translate(50%, -50%);z-score:0;width: 250px;height: 250px;' src='../static/images/%s' height='250'></style>"
-  ,presented_img[trial_num])
-  
-}
-
 
 //this is to test if the user leave the webpage
 var detectfocus=0
@@ -78,9 +72,7 @@ for (let i = 0; i < instructnames.length; i++) {
 
 
 intro_learn=createfulintro(instruct,instructnames)
-// intro_mem=createfulintro(mem_instruct,mem_instructnames)
-// intro_dir=createfulintro(dir_instruct,dir_instructnames)
-// intro_short=createfulintro(short_instruct,short_instructnames)
+intro_dir=createfulintro(dir_instruct,dir_instructnames)
 
 timeline.push(welcome)
 timelinepushintro(intro_learn,instructnames)
@@ -90,10 +82,6 @@ timelinepushintro(intro_learn,instructnames)
 
 
 // learning phase
-var curr_learning_trial=0
-var colordetretime=colorStart()
-var removecolor=colorStop(colordetretime)
-var timetakenforpluswindow=removecolor
 
 var warning_page={
   type: 'html-keyboard-response',
@@ -212,12 +200,56 @@ for (i=0;i<num_learn_trials;i++) {
   trial_num += 1
 }
 
+timelinepushintro(intro_dir,dir_instructnames)
+
+let recog_trial_num = 0
+let on_finish_num = 0
+let correctResp = []
+
+for (i=0;i<num_recognition_trials;i++){
+  var img_recognition = {
+    type: 'html-keyboard-response',
+    choices: ['1','2'],
+    response_ends_trial: true,
+    stimulus:create_image_recognition(recognition_list,recog_trial_num),
+    stimulus_duration:5000,//5 second for now, we will discuss it 
+    trial_duration:5000,//5 second for now 
+    on_finish: function(data) {
+      data.trial_type = 'recognition_phase';
+      data.stimulus= recognition_list[recog_trial_num]
+      if (data.key_press == 49){
+        data.response = "old"
+      } else if (data.key_press == 50){
+        data.response = "new"
+      } else {
+        data.response = "MISSED"
+      }
+      if(data.key_press == 49 && new_old[on_finish_num] == "OLD" || data.key_press == 50 && new_old[on_finish_num] == "NEW"){
+        data.correct = 1
+        correctResp.push(1)
+        data.accuracy = correctResp / correctResp.length
+      } else if (data.key_press == 49 && new_old[on_finish_num] == "NEW" || data.key_press == 50 && new_old[on_finish_num] == "OLD"){
+        data.correct = 0 
+        correctResp.push(0)
+        data.accuracy = correctResp / correctResp.length
+      } else {
+        data.correct = NaN
+        correctResp.push(0)
+        data.accuracy = correctResp / correctResp.length
+      }
+      on_finish_num += 1
+    }
+  }
+  recog_trial_num += 1
+  timeline.push(img_recognition)
+}
+
 
 // final thank you
 var thank_you = {
   type: 'html-keyboard-response',
   choices: ['space'],
-  stimulus: "<p> Congratulations, you are all done!</p><p>The secret code to enter at the beginning screen is: AJFHBG897</p><p> Please make sure to submit the HIT and email mnadkarn@gmail.com if you had any issues! </p>",
+  stimulus: "<p> Congratulations, you are all done!</p><p>The secret code to enter at the beginning screen is: AJFHBG897</p><p> Please make sure to submit the HIT and email uciccnl@gmail.com if you had any issues! </p>",
   on_finish: function (data) {
     data.trial_type = 'thank_you';
     data.detectfocus = detectfocus;
@@ -225,6 +257,7 @@ var thank_you = {
   }
 }
 
+timeline.push(thank_you);
 
 //time line here
 
